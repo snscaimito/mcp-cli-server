@@ -13,7 +13,7 @@ Java 21 and no globally installed Maven are required. The checked-in wrapper dow
 ./mvnw package
 ```
 
-The executable JAR is `target/mcp-cli-server-1.0.0.jar`. The Ubuntu package is `target/mcp-cli-server-1.0.0.deb` and installs the JAR in `/usr/lib/mcp-cli-server/`, a launcher in `/usr/bin/mcp-cli-server`, and an opt-in systemd unit. Configure `/etc/mcp-cli-server/application.yml` with an absolute trusted CLI directory before enabling the service.
+The executable JAR is `target/mcp-cli-server-<version>.jar`. The Ubuntu package is `target/mcp-cli-server-<version>.deb` and installs the JAR in `/usr/lib/mcp-cli-server/`, a launcher in `/usr/bin/mcp-cli-server`, and an opt-in systemd unit. Configure `/etc/mcp-cli-server/application.yml` with an absolute trusted CLI directory before enabling the service.
 
 ```yaml
 mcp:
@@ -26,6 +26,25 @@ The package does not enable the service automatically. After configuration:
 ```sh
 sudo systemctl enable --now mcp-cli-server
 ```
+
+## Install from APT
+
+Released versions are published to the signed Caimito APT repository. Install its public archive key and source once:
+
+```sh
+curl -fsSL https://snscaimito.github.io/mcp-cli-server/caimito-mcp-cli-server-archive-keyring.gpg \
+  | sudo tee /usr/share/keyrings/caimito-mcp-cli-server-archive-keyring.gpg >/dev/null
+
+echo 'deb [signed-by=/usr/share/keyrings/caimito-mcp-cli-server-archive-keyring.gpg] https://snscaimito.github.io/mcp-cli-server stable main' \
+  | sudo tee /etc/apt/sources.list.d/caimito-mcp-cli-server.list >/dev/null
+
+sudo apt update
+sudo apt install mcp-cli-server
+```
+
+The repository is published by the `Publish signed APT repository` workflow when a `vMAJOR.MINOR.PATCH` tag is pushed. It signs APT metadata with a dedicated archive signing key stored only in the repository's `APT_SIGNING_KEY` and `APT_SIGNING_PASSPHRASE` GitHub Actions secrets.
+
+The archive signing-key fingerprint is `1306 3FDE C676 38DD F9A5 B1CF BDAC 9723 1117 D9F0`; verify it after downloading the key before trusting a new installation source.
 
 ## Local operation
 

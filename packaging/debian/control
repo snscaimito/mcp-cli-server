@@ -1,5 +1,5 @@
 Package: mcp-cli-server
-Version: 1.0.0
+Version: @project.version@
 Section: utils
 Priority: optional
 Architecture: all

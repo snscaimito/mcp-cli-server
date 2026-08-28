@@ -13,11 +13,12 @@
 
     <groupId>net.caimito</groupId>
     <artifactId>mcp-cli-server</artifactId>
-    <version>1.0.0</version>
+    <version>${revision}</version>
     <name>mcp-cli-server</name>
     <description>Dynamic MCP server for self-describing command-line tools</description>
 
     <properties>
+        <revision>1.0.1</revision>
         <java.version>21</java.version>
         <spring-ai.version>1.1.7</spring-ai.version>
         <networknt-json-schema-validator.version>2.0.0</networknt-json-schema-validator.version>
@@ -62,7 +63,36 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <delimiters><delimiter>@</delimiter></delimiters>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>filter-debian-control</id>
+                        <phase>generate-resources</phase>
+                        <goals><goal>copy-resources</goal></goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/debian-control</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/packaging/debian</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -98,7 +128,7 @@
                                     <mapper><type>perm</type><prefix>/</prefix><filemode>644</filemode></mapper>
                                 </data>
                             </dataSet>
-                            <controlDir>${project.basedir}/packaging/debian</controlDir>
+                            <controlDir>${project.build.directory}/debian-control</controlDir>
                         </configuration>
                     </execution>
                 </executions>
