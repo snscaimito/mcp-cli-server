@@ -1,0 +1,51 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Architectures: amd64 arm64
+Codename: stable
+Components: main
+Date: Fri, 28 Aug 2026 22:58:49 +0000
+Description: Caimito MCP CLI Server APT repository
+Label: Caimito MCP CLI Server
+Origin: Caimito
+Suite: stable
+MD5Sum:
+ 7697be07a66cc156b081afdd0f42775e              210 Release
+ ae43798bb3d16822f947e6f74ff22f1a              687 main/binary-amd64/Packages
+ 182cddf556b8f961d69a9c03dfd1d82d              473 main/binary-amd64/Packages.gz
+ ae43798bb3d16822f947e6f74ff22f1a              687 main/binary-arm64/Packages
+ 182cddf556b8f961d69a9c03dfd1d82d              473 main/binary-arm64/Packages.gz
+SHA1:
+ 028f40b17aef04540a7c58c9a4f0c7f034643dd2              210 Release
+ dfa004de190cc87f26dbe2279f92230bf6e3a347              687 main/binary-amd64/Packages
+ 5604164ed99d86167eeb024a4aea61c241cc8e1a              473 main/binary-amd64/Packages.gz
+ dfa004de190cc87f26dbe2279f92230bf6e3a347              687 main/binary-arm64/Packages
+ 5604164ed99d86167eeb024a4aea61c241cc8e1a              473 main/binary-arm64/Packages.gz
+SHA256:
+ 81073ea52078e1ae50a6c960fdc4f1dd603281e20f733b39da5edadc9d93fd9f              210 Release
+ 3ff0cd5a725d3b766ca64e58b1c471b93497651dd20e3eb81e061d8458fc9451              687 main/binary-amd64/Packages
+ 4900aeaa1fa728d1acf9c2302a9f7b0a8929be0c09a65eed0174b64c389c6b51              473 main/binary-amd64/Packages.gz
+ 3ff0cd5a725d3b766ca64e58b1c471b93497651dd20e3eb81e061d8458fc9451              687 main/binary-arm64/Packages
+ 4900aeaa1fa728d1acf9c2302a9f7b0a8929be0c09a65eed0174b64c389c6b51              473 main/binary-arm64/Packages.gz
+SHA512:
+ 9e58ec392ea750160c2598039b411f4af0c99abf51c1754b836fbf3c5d1dec284c7f1aafd9ccdd3d0e9ecb9c3fa6d6ae4f47bff7a399929d50d7f5c9ad2e981a              210 Release
+ 17dd8ab46d9a5b3bcc00cbce7b374cb81c2a6abfe6d9efcc8f76d54eef1e36b7fd6ce63c782f3b23e80817aa371104f13bfabb4786c4cfeffd2dc6359d7cb992              687 main/binary-amd64/Packages
+ d2a3de135916f36c8e9d07290007887f57a649dd1b6749ace8470b7ae579325bb300f6fbd2b04f5e22613a799d65af50de002c30dc34cb4c0a53398bc19bf8ed              473 main/binary-amd64/Packages.gz
+ 17dd8ab46d9a5b3bcc00cbce7b374cb81c2a6abfe6d9efcc8f76d54eef1e36b7fd6ce63c782f3b23e80817aa371104f13bfabb4786c4cfeffd2dc6359d7cb992              687 main/binary-arm64/Packages
+ d2a3de135916f36c8e9d07290007887f57a649dd1b6749ace8470b7ae579325bb300f6fbd2b04f5e22613a799d65af50de002c30dc34cb4c0a53398bc19bf8ed              473 main/binary-arm64/Packages.gz
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEEwY/3sZ2ON35pbHPvayXIxEX2fAFAmqSEqkACgkQvayXIxEX
+2fCxyg//Qp/yvdI5rwK6skXtrQ+vch/Gp74GuMlOc3TnNrrprPyOpb83wgwyew6e
+h0DHLr/srHP7sZd5C/Oq0dYhoebiDQgYLP+gTRjGOdYZBA0if6qw8dJpY46glC0c
+QK5YeCzR0fDTZ/G2KHE9itqFDfrR4U913ZfvhEEUiSq0KLw1L9acuAEBp+/x/uDn
+VqMkxfSt44llMxcOknTtvfTlOuKLzBpJci+TTEHdiUMobYQjZteeXA2nJmMgxqR1
+M3xpnblZswCW90cglM6qL+1WJlz+atyk5L4k4uKWNfLqxRU3vWpYzWYN7G1nuoLz
+EcvTAM8qJWAmmx8FQ4qOl+qeOA3cdyK+vOZzzKRvQ/GrEMnin+1Tgag4TOjgn3Ze
+E+ttB7Pv5565yM8qcSeYWhncCtUljbne4Vm57Y8/Zn8YITOROuChN3dHcmJKOLCe
+zVLJIe/e6VQ3d940Ryey5y2RiAS1Y4GJhlLACqCRqjp3iV1c/yV9pk7Ds1Dc++vs
+2nQQfeJb7HBMK+UAW+ch1g5xkCLPQNAqrU6B7PDbRCNoHKnVC4ngHaDDwEfeQQm0
+1/L1EzsjdwlDaRqR6OEmso6/q6ytSB0sGWuBwuw4HDjB4O0P9DRplxNzoFz9O71W
+X/OUV25ZUpHkzWdfzRDcLfj5mbncdjH+IpmhZhY0T+ov6EHbCUw=
+=leth
+-----END PGP SIGNATURE-----
