@@ -6,14 +6,14 @@ It is infrastructure, not a command executor: an MCP request cannot choose an ex
 
 ## Build and package
 
-Java 21 and no globally installed Maven are required. The checked-in wrapper downloads the pinned Maven distribution when needed.
+Java 21 and Go 1.22+ are required to build from source. No globally installed Maven is required; the checked-in wrapper downloads the pinned Maven distribution when needed.
 
 ```sh
 ./mvnw test
 ./mvnw package
 ```
 
-The executable JAR is `target/mcp-cli-server-<version>.jar`. The Ubuntu package is `target/mcp-cli-server-<version>.deb` and installs the JAR in `/usr/lib/mcp-cli-server/`, a launcher in `/usr/bin/mcp-cli-server`, and an opt-in systemd unit. Configure `/etc/mcp-cli-server/application.yml` with an absolute trusted CLI directory before enabling the service.
+The executable JAR is `target/mcp-cli-server-<version>.jar`. The Ubuntu package is `target/mcp-cli-server-<version>.deb` and installs the JAR in `/usr/lib/mcp-cli-server/`, a launcher in `/usr/bin/mcp-cli-server`, an opt-in systemd unit, and the compiled Go hello-world CLI in its default trusted directory. The package includes native Linux AMD64 and ARM64 demo binaries and selects the appropriate one at runtime.
 
 ```yaml
 mcp:
@@ -21,10 +21,14 @@ mcp:
     directory: /opt/mcp-clis
 ```
 
-The package does not enable the service automatically. After configuration:
+The package does not enable the service automatically. A fresh installation configures the packaged hello-world CLI as the trusted directory, so it is ready for a safe discovery and invocation check. Replace `/etc/default/mcp-cli-server` or configure `/etc/mcp-cli-server/application.yml` with your own absolute trusted CLI directory before production use.
 
 ```sh
 sudo systemctl enable --now mcp-cli-server
+
+/usr/lib/mcp-cli-server/demo-clis/hello-world mcp describe
+printf '%s' '{"protocolVersion":"1","requestId":"demo-1","tool":"greet","arguments":{"name":"Ada"}}' \
+  | /usr/lib/mcp-cli-server/demo-clis/hello-world mcp invoke
 ```
 
 ## Install from APT
@@ -85,4 +89,4 @@ Health and metrics are available through Spring Boot Actuator at `/actuator/heal
 
 ## Demo CLI
 
-[demo/hello-world-cli](demo/hello-world-cli) contains a separately buildable protocol-v1 reference CLI. It contributes `hello_world_greet` and is useful for local discovery and invocation tests.
+[demo/hello-world-cli](demo/hello-world-cli) contains the protocol-v1 reference CLI built into every Debian package. It contributes `hello_world_greet`; after a fresh install and service start, it is the default MCP test tool.

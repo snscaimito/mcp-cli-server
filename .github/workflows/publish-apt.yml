@@ -29,6 +29,9 @@ jobs:
           distribution: temurin
           java-version: "21"
           cache: maven
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: demo/hello-world-cli/go.mod
       - id: version
         shell: bash
         run: |

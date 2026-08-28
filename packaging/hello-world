@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+case "$(uname -m)" in
+    x86_64|amd64)
+        executable=/usr/lib/mcp-cli-server/demo-clis/bin/hello-world-amd64
+        ;;
+    aarch64|arm64)
+        executable=/usr/lib/mcp-cli-server/demo-clis/bin/hello-world-arm64
+        ;;
+    *)
+        echo "Unsupported architecture for the packaged hello-world CLI: $(uname -m)" >&2
+        exit 1
+        ;;
+esac
+
+exec "$executable" "$@"

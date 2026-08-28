@@ -7,6 +7,12 @@ if ! getent passwd mcp-cli-server >/dev/null; then
     adduser --system --no-create-home --ingroup mcp-cli-server --home /var/lib/mcp-cli-server mcp-cli-server
 fi
 install -d -o mcp-cli-server -g mcp-cli-server /etc/mcp-cli-server /var/lib/mcp-cli-server
+if [ ! -f /etc/default/mcp-cli-server ]; then
+    cat > /etc/default/mcp-cli-server <<'EOF'
+# Override this directory after installing trusted production CLIs.
+MCP_CLI_DIRECTORY=/usr/lib/mcp-cli-server/demo-clis
+EOF
+fi
 if [ ! -f /etc/mcp-cli-server/application.yml ]; then
     cat > /etc/mcp-cli-server/application.yml <<'EOF'
 # mcp.cli.directory: /absolute/path/to/trusted-clis

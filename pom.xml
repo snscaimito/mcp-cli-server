@@ -23,6 +23,7 @@
         <spring-ai.version>1.1.7</spring-ai.version>
         <networknt-json-schema-validator.version>2.0.0</networknt-json-schema-validator.version>
         <jdeb.version>1.14</jdeb.version>
+        <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -98,6 +99,55 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>build-demo-cli-amd64</id>
+                        <phase>generate-resources</phase>
+                        <goals><goal>exec</goal></goals>
+                        <configuration>
+                            <workingDirectory>${project.basedir}/demo/hello-world-cli</workingDirectory>
+                            <executable>go</executable>
+                            <arguments>
+                                <argument>build</argument>
+                                <argument>-trimpath</argument>
+                                <argument>-o</argument>
+                                <argument>${project.build.directory}/hello-world-cli-amd64</argument>
+                                <argument>.</argument>
+                            </arguments>
+                            <environmentVariables>
+                                <CGO_ENABLED>0</CGO_ENABLED>
+                                <GOOS>linux</GOOS>
+                                <GOARCH>amd64</GOARCH>
+                            </environmentVariables>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>build-demo-cli-arm64</id>
+                        <phase>generate-resources</phase>
+                        <goals><goal>exec</goal></goals>
+                        <configuration>
+                            <workingDirectory>${project.basedir}/demo/hello-world-cli</workingDirectory>
+                            <executable>go</executable>
+                            <arguments>
+                                <argument>build</argument>
+                                <argument>-trimpath</argument>
+                                <argument>-o</argument>
+                                <argument>${project.build.directory}/hello-world-cli-arm64</argument>
+                                <argument>.</argument>
+                            </arguments>
+                            <environmentVariables>
+                                <CGO_ENABLED>0</CGO_ENABLED>
+                                <GOOS>linux</GOOS>
+                                <GOARCH>arm64</GOARCH>
+                            </environmentVariables>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.vafer</groupId>
                 <artifactId>jdeb</artifactId>
                 <version>${jdeb.version}</version>
@@ -126,6 +176,24 @@
                                     <src>${project.basedir}/packaging/mcp-cli-server.service</src>
                                     <dst>/lib/systemd/system/mcp-cli-server.service</dst>
                                     <mapper><type>perm</type><prefix>/</prefix><filemode>644</filemode></mapper>
+                                </data>
+                                <data>
+                                    <type>file</type>
+                                    <src>${project.basedir}/packaging/hello-world</src>
+                                    <dst>/usr/lib/mcp-cli-server/demo-clis/hello-world</dst>
+                                    <mapper><type>perm</type><prefix>/</prefix><filemode>755</filemode></mapper>
+                                </data>
+                                <data>
+                                    <type>file</type>
+                                    <src>${project.build.directory}/hello-world-cli-amd64</src>
+                                    <dst>/usr/lib/mcp-cli-server/demo-clis/bin/hello-world-amd64</dst>
+                                    <mapper><type>perm</type><prefix>/</prefix><filemode>755</filemode></mapper>
+                                </data>
+                                <data>
+                                    <type>file</type>
+                                    <src>${project.build.directory}/hello-world-cli-arm64</src>
+                                    <dst>/usr/lib/mcp-cli-server/demo-clis/bin/hello-world-arm64</dst>
+                                    <mapper><type>perm</type><prefix>/</prefix><filemode>755</filemode></mapper>
                                 </data>
                             </dataSet>
                             <controlDir>${project.build.directory}/debian-control</controlDir>
