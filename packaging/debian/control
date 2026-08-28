@@ -3,7 +3,7 @@ Version: @project.version@
 Section: utils
 Priority: optional
 Architecture: all
-Depends: openjdk-21-jre-headless
+Depends: adduser, openjdk-21-jre-headless
 Maintainer: MCP CLI Server Maintainers <maintainers@example.invalid>
 Description: Dynamic Model Context Protocol server for self-describing CLIs
  A loopback-only Spring Boot MCP server that discovers trusted local executables.
