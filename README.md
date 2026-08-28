@@ -32,10 +32,10 @@ sudo systemctl enable --now mcp-cli-server
 Released versions are published to the signed Caimito APT repository. Install its public archive key and source once:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/snscaimito/mcp-cli-server/apt/caimito-mcp-cli-server-archive-keyring.gpg \
+curl -fsSL https://raw.githubusercontent.com/snscaimito/mcp-cli-server/refs/heads/apt/caimito-mcp-cli-server-archive-keyring.gpg \
   | sudo tee /usr/share/keyrings/caimito-mcp-cli-server-archive-keyring.gpg >/dev/null
 
-echo 'deb [signed-by=/usr/share/keyrings/caimito-mcp-cli-server-archive-keyring.gpg] https://raw.githubusercontent.com/snscaimito/mcp-cli-server/apt stable main' \
+echo 'deb [signed-by=/usr/share/keyrings/caimito-mcp-cli-server-archive-keyring.gpg] https://raw.githubusercontent.com/snscaimito/mcp-cli-server/refs/heads/apt stable main' \
   | sudo tee /etc/apt/sources.list.d/caimito-mcp-cli-server.list >/dev/null
 
 sudo apt update
