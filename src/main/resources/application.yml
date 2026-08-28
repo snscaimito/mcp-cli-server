@@ -16,7 +16,7 @@ server:
   port: 80
 mcp:
   cli:
-    directory: ${MCP_CLI_DIRECTORY:}
+    directory: ${MCP_CLI_DIRECTORY:/usr/lib/mcp-cli-server/demo-clis}
     discovery-timeout: 5s
     invocation-timeout: 60s
     change-debounce: 500ms

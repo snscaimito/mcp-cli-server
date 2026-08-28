@@ -21,7 +21,7 @@ mcp:
     directory: /opt/mcp-clis
 ```
 
-The package does not enable the service automatically. A fresh installation configures the packaged hello-world CLI as the trusted directory, so it is ready for a safe discovery and invocation check. Replace `/etc/default/mcp-cli-server` or configure `/etc/mcp-cli-server/application.yml` with your own absolute trusted CLI directory before production use.
+The package does not enable the service automatically. A fresh installation uses the packaged hello-world CLI as its fallback trusted directory, so it is ready for a safe discovery and invocation check. Configure `/etc/mcp-cli-server/application.yml` with your own absolute trusted CLI directory before production use. An explicit `MCP_CLI_DIRECTORY` in `/etc/default/mcp-cli-server` intentionally takes precedence over YAML; the package does not set one.
 
 ```sh
 sudo systemctl enable --now mcp-cli-server
