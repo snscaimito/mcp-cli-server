@@ -16,21 +16,27 @@ deb_package=$2
 
 pool_directory="$repository_directory/pool/main/m/mcp-cli-server"
 distribution_directory="$repository_directory/dists/stable"
-binary_directory="$distribution_directory/main/binary-all"
-mkdir -p "$pool_directory" "$binary_directory"
+architectures=(amd64 arm64)
+mkdir -p "$pool_directory"
+for architecture in "${architectures[@]}"; do
+  mkdir -p "$distribution_directory/main/binary-$architecture"
+done
 cp "$deb_package" "$pool_directory/"
 
 (
   cd "$repository_directory"
-  dpkg-scanpackages pool /dev/null > dists/stable/main/binary-all/Packages
-  gzip --no-name --best --force dists/stable/main/binary-all/Packages
+  for architecture in "${architectures[@]}"; do
+    package_index="dists/stable/main/binary-$architecture/Packages"
+    dpkg-scanpackages pool /dev/null > "$package_index"
+    gzip --no-name --best --keep --force "$package_index"
+  done
 
   apt-ftparchive \
     -o APT::FTPArchive::Release::Origin="Caimito" \
     -o APT::FTPArchive::Release::Label="Caimito MCP CLI Server" \
     -o APT::FTPArchive::Release::Suite="stable" \
     -o APT::FTPArchive::Release::Codename="stable" \
-    -o APT::FTPArchive::Release::Architectures="all" \
+    -o APT::FTPArchive::Release::Architectures="amd64 arm64" \
     -o APT::FTPArchive::Release::Components="main" \
     -o APT::FTPArchive::Release::Description="Caimito MCP CLI Server APT repository" \
     release dists/stable > dists/stable/Release
