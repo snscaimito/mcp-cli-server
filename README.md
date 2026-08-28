@@ -65,10 +65,10 @@ chmod 755 /tmp/mcp-clis/customer
 MCP_CLI_DIRECTORY=/tmp/mcp-clis ./mvnw spring-boot:run
 ```
 
-The server listens on `127.0.0.1` and Spring AI exposes Streamable HTTP at `/mcp`. Configure an MCP client with:
+The server listens on `127.0.0.1:80` and Spring AI exposes Streamable HTTP at `/mcp`. Configure an MCP client with:
 
 ```json
-{ "url": "http://127.0.0.1:8080/mcp" }
+{ "url": "http://127.0.0.1/mcp" }
 ```
 
 `tools/list` will include `customer_find`. A real CLI must copy the server-supplied `requestId` from its `mcp invoke` JSON input into its response; the abbreviated example intentionally returns a failure and is only for descriptor discovery.

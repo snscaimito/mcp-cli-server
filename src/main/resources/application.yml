@@ -13,6 +13,7 @@ spring:
       enabled: true
 server:
   address: 127.0.0.1
+  port: 80
 mcp:
   cli:
     directory: ${MCP_CLI_DIRECTORY:}
