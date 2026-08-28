@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: mcp-cli-server
+  ai:
+    mcp:
+      server:
+        name: mcp-cli-server
+        version: "1.0.0"
+        type: SYNC
+        protocol: STREAMABLE
+  threads:
+    virtual:
+      enabled: true
+server:
+  address: 127.0.0.1
+mcp:
+  cli:
+    directory: ${MCP_CLI_DIRECTORY:}
+    discovery-timeout: 5s
+    invocation-timeout: 60s
+    change-debounce: 500ms
+    reconciliation-interval: 30s
+    max-stdout-bytes: 1048576
+    max-stderr-bytes: 65536
+    max-concurrent-invocations: 16
+    environment-allowlist: [HOME, USER, LANG, LC_ALL, TZ]
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics

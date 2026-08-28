@@ -1,0 +1,19 @@
+[Unit]
+Description=Dynamic MCP CLI Server
+After=network.target
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/default/mcp-cli-server
+ExecStart=/usr/bin/mcp-cli-server --spring.config.additional-location=file:/etc/mcp-cli-server/application.yml
+Restart=on-failure
+User=mcp-cli-server
+Group=mcp-cli-server
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/mcp-cli-server
+
+[Install]
+WantedBy=multi-user.target

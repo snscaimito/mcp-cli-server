@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+if ! getent group mcp-cli-server >/dev/null; then
+    addgroup --system mcp-cli-server
+fi
+if ! getent passwd mcp-cli-server >/dev/null; then
+    adduser --system --no-create-home --ingroup mcp-cli-server --home /var/lib/mcp-cli-server mcp-cli-server
+fi
+install -d -o mcp-cli-server -g mcp-cli-server /etc/mcp-cli-server /var/lib/mcp-cli-server
+if [ ! -f /etc/mcp-cli-server/application.yml ]; then
+    cat > /etc/mcp-cli-server/application.yml <<'EOF'
+# mcp.cli.directory: /absolute/path/to/trusted-clis
+EOF
+fi
+systemctl daemon-reload || true

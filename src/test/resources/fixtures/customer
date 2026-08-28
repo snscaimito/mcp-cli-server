@@ -1,0 +1,8 @@
+#!/bin/sh
+if [ "$1" = mcp ] && [ "$2" = describe ]; then
+  printf '%s' '{"protocolVersion":"1","name":"customer","version":"1.0.0","description":"Customer fixture","tools":[{"name":"find","title":"Find customers","description":"Finds customers.","inputSchema":{"type":"object","properties":{"query":{"type":"string"}},"required":["query"],"additionalProperties":false},"outputSchema":{"type":"object","properties":{"customers":{"type":"array"}},"required":["customers"],"additionalProperties":false},"annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":true,"openWorldHint":false}}]}'
+elif [ "$1" = mcp ] && [ "$2" = invoke ]; then
+  request=$(cat)
+  request_id=$(printf '%s' "$request" | sed -n 's/.*"requestId":"\([^"]*\)".*/\1/p')
+  printf '{"protocolVersion":"1","requestId":"%s","success":true,"result":{"customers":[]},"message":"Found customers."}' "$request_id"
+fi

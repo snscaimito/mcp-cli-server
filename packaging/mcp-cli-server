@@ -1,0 +1,2 @@
+#!/bin/sh
+exec java ${JAVA_OPTS:-} -jar /usr/lib/mcp-cli-server/mcp-cli-server.jar "$@"

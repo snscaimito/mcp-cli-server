@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.14</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>net.caimito</groupId>
+    <artifactId>mcp-cli-server</artifactId>
+    <version>1.0.0</version>
+    <name>mcp-cli-server</name>
+    <description>Dynamic MCP server for self-describing command-line tools</description>
+
+    <properties>
+        <java.version>21</java.version>
+        <spring-ai.version>1.1.7</spring-ai.version>
+        <networknt-json-schema-validator.version>2.0.0</networknt-json-schema-validator.version>
+        <jdeb.version>1.14</jdeb.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-mcp-server-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.networknt</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>${networknt-json-schema-validator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.vafer</groupId>
+                <artifactId>jdeb</artifactId>
+                <version>${jdeb.version}</version>
+                <executions>
+                    <execution>
+                        <id>deb</id>
+                        <phase>package</phase>
+                        <goals><goal>jdeb</goal></goals>
+                        <configuration>
+                            <deb>${project.build.directory}/${project.build.finalName}.deb</deb>
+                            <dataSet>
+                                <data>
+                                    <type>file</type>
+                                    <src>${project.build.directory}/${project.build.finalName}.jar</src>
+                                    <dst>/usr/lib/mcp-cli-server/mcp-cli-server.jar</dst>
+                                    <mapper><type>perm</type><prefix>/</prefix><filemode>644</filemode></mapper>
+                                </data>
+                                <data>
+                                    <type>file</type>
+                                    <src>${project.basedir}/packaging/mcp-cli-server</src>
+                                    <dst>/usr/bin/mcp-cli-server</dst>
+                                    <mapper><type>perm</type><prefix>/</prefix><filemode>755</filemode></mapper>
+                                </data>
+                                <data>
+                                    <type>file</type>
+                                    <src>${project.basedir}/packaging/mcp-cli-server.service</src>
+                                    <dst>/lib/systemd/system/mcp-cli-server.service</dst>
+                                    <mapper><type>perm</type><prefix>/</prefix><filemode>644</filemode></mapper>
+                                </data>
+                            </dataSet>
+                            <controlDir>${project.basedir}/packaging/debian</controlDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
