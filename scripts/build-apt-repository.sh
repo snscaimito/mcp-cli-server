@@ -22,7 +22,7 @@ cp "$deb_package" "$pool_directory/"
 
 (
   cd "$repository_directory"
-  dpkg-scanpackages --arch all pool /dev/null > dists/stable/main/binary-all/Packages
+  dpkg-scanpackages pool /dev/null > dists/stable/main/binary-all/Packages
   gzip --no-name --best --force dists/stable/main/binary-all/Packages
 
   apt-ftparchive \

@@ -32,17 +32,17 @@ sudo systemctl enable --now mcp-cli-server
 Released versions are published to the signed Caimito APT repository. Install its public archive key and source once:
 
 ```sh
-curl -fsSL https://www.stephan-schwab.com/mcp-cli-server/caimito-mcp-cli-server-archive-keyring.gpg \
+curl -fsSL https://raw.githubusercontent.com/snscaimito/mcp-cli-server/apt/caimito-mcp-cli-server-archive-keyring.gpg \
   | sudo tee /usr/share/keyrings/caimito-mcp-cli-server-archive-keyring.gpg >/dev/null
 
-echo 'deb [signed-by=/usr/share/keyrings/caimito-mcp-cli-server-archive-keyring.gpg] https://www.stephan-schwab.com/mcp-cli-server stable main' \
+echo 'deb [signed-by=/usr/share/keyrings/caimito-mcp-cli-server-archive-keyring.gpg] https://raw.githubusercontent.com/snscaimito/mcp-cli-server/apt stable main' \
   | sudo tee /etc/apt/sources.list.d/caimito-mcp-cli-server.list >/dev/null
 
 sudo apt update
 sudo apt install mcp-cli-server
 ```
 
-The repository is published by the `Publish signed APT repository` workflow when a `vMAJOR.MINOR.PATCH` tag is pushed. It signs APT metadata with a dedicated archive signing key stored only in the repository's `APT_SIGNING_KEY` and `APT_SIGNING_PASSPHRASE` GitHub Actions secrets.
+The repository is published to the public `apt` branch by the `Publish signed APT repository` workflow when a `vMAJOR.MINOR.PATCH` tag is pushed. It signs APT metadata with a dedicated archive signing key stored only in the repository's `APT_SIGNING_KEY` and `APT_SIGNING_PASSPHRASE` GitHub Actions secrets.
 
 The archive signing-key fingerprint is `1306 3FDE C676 38DD F9A5 B1CF BDAC 9723 1117 D9F0`; verify it after downloading the key before trusting a new installation source.
 
