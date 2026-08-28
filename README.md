@@ -87,6 +87,10 @@ Binding to a non-loopback address is not production-ready: this transport suppli
 
 Health and metrics are available through Spring Boot Actuator at `/actuator/health` and `/actuator/metrics`.
 
+## MCP resources
+
+The server exposes the canonical CLI protocol as the read-only Markdown resource `mcp-cli-server://specifications/cli-builder/v1`. MCP agents can retrieve it through `resources/read` before creating or validating a CLI.
+
 ## Demo CLI
 
 [demo/hello-world-cli](demo/hello-world-cli) contains the protocol-v1 reference CLI built into every Debian package. It contributes `hello_world_greet`; after a fresh install and service start, it is the default MCP test tool.

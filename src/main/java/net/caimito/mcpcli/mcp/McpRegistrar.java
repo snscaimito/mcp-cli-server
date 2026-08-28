@@ -7,11 +7,17 @@ import io.modelcontextprotocol.json.jackson2.JacksonMcpJsonMapper;
 import io.modelcontextprotocol.server.McpServerFeatures;
 import io.modelcontextprotocol.server.McpSyncServer;
 import io.modelcontextprotocol.spec.McpSchema;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
+import org.springframework.core.io.ClassPathResource;
 
 @Component
 public class McpRegistrar {
+    private static final String CLI_BUILDER_SPECIFICATION_URI = "mcp-cli-server://specifications/cli-builder/v1";
+    private static final String CLI_BUILDER_SPECIFICATION_MIME_TYPE = "text/markdown";
     private final McpSyncServer server;
     private final McpInvocationService invocations;
     private final JacksonMcpJsonMapper jsonMapper;
@@ -19,6 +25,30 @@ public class McpRegistrar {
 
     public McpRegistrar(McpSyncServer server, McpInvocationService invocations, ObjectMapper objectMapper) {
         this.server = server; this.invocations = invocations; this.jsonMapper = new JacksonMcpJsonMapper(objectMapper);
+        registerCliBuilderSpecification();
+    }
+
+    private void registerCliBuilderSpecification() {
+        String specification = readCliBuilderSpecification();
+        McpSchema.Resource resource = McpSchema.Resource.builder()
+                .uri(CLI_BUILDER_SPECIFICATION_URI)
+                .name("CLI Builder Specification")
+                .title("CLI Builder Specification v1")
+                .description("Canonical protocol specification for CLIs discovered by MCP CLI Server.")
+                .mimeType(CLI_BUILDER_SPECIFICATION_MIME_TYPE)
+                .size((long) specification.getBytes(StandardCharsets.UTF_8).length)
+                .build();
+        server.addResource(new McpServerFeatures.SyncResourceSpecification(resource, (exchange, request) ->
+                new McpSchema.ReadResourceResult(List.of(new McpSchema.TextResourceContents(
+                        CLI_BUILDER_SPECIFICATION_URI, CLI_BUILDER_SPECIFICATION_MIME_TYPE, specification)))));
+    }
+
+    private String readCliBuilderSpecification() {
+        try (var stream = new ClassPathResource("specifications/CLI_BUILDER_SPEC.md").getInputStream()) {
+            return new String(stream.readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException exception) {
+            throw new IllegalStateException("CLI Builder Specification resource is unavailable", exception);
+        }
     }
 
     public synchronized void publish(CliRegistry.Snapshot snapshot) {
