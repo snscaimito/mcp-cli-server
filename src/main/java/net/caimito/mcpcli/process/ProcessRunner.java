@@ -69,7 +69,8 @@ public class ProcessRunner implements AutoCloseable {
     }
 
     private static byte[] readBounded(Process process, InputStream stream, long limit, AtomicBoolean exceeded) throws IOException {
-        try (stream; ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        try (stream; bytes) {
             byte[] chunk = new byte[8192]; int count;
             while ((count = stream.read(chunk)) != -1) {
                 int permitted = (int) Math.min(count, Math.max(0, limit - bytes.size()));
@@ -77,6 +78,9 @@ public class ProcessRunner implements AutoCloseable {
                 if (permitted != count) { exceeded.set(true); process.destroy(); break; }
             }
             return bytes.toByteArray();
+        } catch (IOException ex) {
+            if (exceeded.get()) return bytes.toByteArray();
+            throw ex;
         }
     }
 

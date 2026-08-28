@@ -18,7 +18,7 @@
     <description>Dynamic MCP server for self-describing command-line tools</description>
 
     <properties>
-        <revision>1.0.1</revision>
+        <revision>1.0.2</revision>
         <java.version>21</java.version>
         <spring-ai.version>1.1.7</spring-ai.version>
         <networknt-json-schema-validator.version>2.0.0</networknt-json-schema-validator.version>
