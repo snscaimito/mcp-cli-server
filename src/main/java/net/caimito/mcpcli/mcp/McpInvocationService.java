@@ -58,8 +58,12 @@ public class McpInvocationService {
             if (response instanceof CliProtocol.CliSuccessResponse success) {
                 try { validator.validateInstance(tool.tool().outputSchema(), success.result(), "result"); }
                 catch (RuntimeException ex) { return error("CLI_RESULT_SCHEMA_VIOLATION", "The CLI returned a result outside its declared schema."); }
-                String text = success.message() == null || success.message().isBlank() ? mapper.writeValueAsString(success.result()) : success.message();
-                return McpSchema.CallToolResult.builder().addTextContent(text).structuredContent(mapper.convertValue(success.result(), Object.class)).isError(false).build();
+                var result = McpSchema.CallToolResult.builder()
+                        .addTextContent(mapper.writeValueAsString(success.result()))
+                        .structuredContent(mapper.convertValue(success.result(), Object.class))
+                        .isError(false);
+                if (success.message() != null && !success.message().isBlank()) result.addTextContent(success.message());
+                return result.build();
             }
             CliProtocol.CliError failure = ((CliProtocol.CliFailureResponse) response).error();
             return McpSchema.CallToolResult.builder().addTextContent(failure.code() + ": " + failure.message()).isError(true).build();
