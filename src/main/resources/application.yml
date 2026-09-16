@@ -21,7 +21,7 @@ mcp:
     invocation-timeout: 60s
     change-debounce: 500ms
     reconciliation-interval: 30s
-    max-stdout-bytes: 1048576
+    max-stdout-bytes: 0 # No output-size cap unless explicitly configured.
     max-stderr-bytes: 65536
     max-concurrent-invocations: 16
     environment-allowlist: [HOME, USER, LANG, LC_ALL, TZ]

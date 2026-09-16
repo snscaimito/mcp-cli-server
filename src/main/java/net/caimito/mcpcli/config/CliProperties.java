@@ -17,7 +17,7 @@ public record CliProperties(
         @NotNull Duration invocationTimeout,
         @NotNull Duration changeDebounce,
         @NotNull Duration reconciliationInterval,
-        @Positive long maxStdoutBytes,
+        @Min(0) long maxStdoutBytes,
         @Positive long maxStderrBytes,
         @Min(1) int maxConcurrentInvocations,
         @NotNull List<String> environmentAllowlist) {

@@ -50,6 +50,7 @@ public class McpInvocationService {
             String request = mapper.writeValueAsString(new CliProtocol.CliInvocationRequest("1", requestId, tool.tool().name(), args));
             log.debug("Invoking CLI tool [requestId={}, cli={}, tool={}]", requestId, tool.cli().descriptor().name(), tool.tool().name());
             ProcessRunner.ProcessResult process = runner.invoke(tool.cli().executable(), request);
+            logCliDiagnostics(requestId, tool.cli().descriptor().name(), tool.tool().name(), process.stderrText());
             log.debug("CLI invocation completed [requestId={}, cli={}, tool={}, outcome={}, duration={}]", requestId,
                     tool.cli().descriptor().name(), tool.tool().name(), process.success() ? "success" : process.failureCode(), process.duration());
             if (!process.success()) return error(process.failureCode(), bridgeMessage(process.failureCode()));
@@ -62,6 +63,7 @@ public class McpInvocationService {
                         .addTextContent(mapper.writeValueAsString(success.result()))
                         .structuredContent(mapper.convertValue(success.result(), Object.class))
                         .isError(false);
+                if (success.resources() != null) success.resources().forEach(result::addContent);
                 if (success.message() != null && !success.message().isBlank()) result.addTextContent(success.message());
                 return result.build();
             }
@@ -69,6 +71,25 @@ public class McpInvocationService {
             return McpSchema.CallToolResult.builder().addTextContent(failure.code() + ": " + failure.message()).isError(true).build();
         } catch (Exception ex) { return error("CLI_INVALID_RESPONSE", "The CLI returned an invalid protocol response."); }
         finally { permits.release(); }
+    }
+
+    private void logCliDiagnostics(String requestId, String cli, String tool, String diagnostics) {
+        if (diagnostics == null || diagnostics.isBlank()) return;
+        diagnostics.lines().filter(line -> !line.isBlank()).forEach(line -> {
+            try {
+                JsonNode event = mapper.readTree(line);
+                String level = event.path("level").asText("WARN").toUpperCase(java.util.Locale.ROOT);
+                switch (level) {
+                    case "TRACE" -> log.trace("CLI diagnostic [requestId={}, cli={}, tool={}, diagnostic={}]", requestId, cli, tool, line);
+                    case "DEBUG" -> log.debug("CLI diagnostic [requestId={}, cli={}, tool={}, diagnostic={}]", requestId, cli, tool, line);
+                    case "INFO" -> log.info("CLI diagnostic [requestId={}, cli={}, tool={}, diagnostic={}]", requestId, cli, tool, line);
+                    case "ERROR" -> log.error("CLI diagnostic [requestId={}, cli={}, tool={}, diagnostic={}]", requestId, cli, tool, line);
+                    default -> log.warn("CLI diagnostic [requestId={}, cli={}, tool={}, diagnostic={}]", requestId, cli, tool, line);
+                }
+            } catch (Exception ex) {
+                log.warn("CLI emitted an unstructured diagnostic [requestId={}, cli={}, tool={}, characterCount={}]", requestId, cli, tool, line.length());
+            }
+        });
     }
 
     private boolean trusted(Path executable) {

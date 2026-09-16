@@ -38,4 +38,18 @@ class ProcessRunnerTest {
             assertThat(runner.describe(executable).failureCode()).isEqualTo("CLI_OUTPUT_TOO_LARGE");
         }
     }
+
+    @Test
+    void zeroOutputLimitAllowsLargeResponses() throws Exception {
+        Path executable = directory.resolve("echo-input");
+        Files.writeString(executable, "#!/bin/sh\ncat\n");
+        executable.toFile().setExecutable(true);
+        String payload = "x".repeat(8 * 1024 * 1024);
+        try (ProcessRunner runner = new ProcessRunner(new CliProperties(directory, Duration.ofSeconds(5), Duration.ofSeconds(5),
+                Duration.ofMillis(10), Duration.ofSeconds(1), 0, 65536, 1, List.of()))) {
+            var result = runner.invoke(executable, payload);
+            assertThat(result.success()).isTrue();
+            assertThat(result.stdoutText()).isEqualTo(payload);
+        }
+    }
 }

@@ -21,6 +21,7 @@ public class ProtocolValidator {
 
     public ProtocolValidator(ObjectMapper mapper) {
         this.mapper = mapper.copy().enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        this.mapper.getFactory().setStreamReadConstraints(com.fasterxml.jackson.core.StreamReadConstraints.builder().maxStringLength(Integer.MAX_VALUE).build());
     }
 
     public CliProtocol.CliDescriptor descriptor(String json) throws IOException {

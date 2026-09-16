@@ -3,6 +3,7 @@ package net.caimito.mcpcli.protocol;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
+import io.modelcontextprotocol.spec.McpSchema;
 
 public final class CliProtocol {
     private CliProtocol() { }
@@ -29,7 +30,11 @@ public final class CliProtocol {
 
     @JsonIgnoreProperties(ignoreUnknown = false)
     public record CliSuccessResponse(String protocolVersion, String requestId, boolean success, JsonNode result,
-                                     String message) implements CliInvocationResponse { }
+                                     String message, List<McpSchema.EmbeddedResource> resources) implements CliInvocationResponse {
+        public CliSuccessResponse(String protocolVersion, String requestId, boolean success, JsonNode result, String message) {
+            this(protocolVersion, requestId, success, result, message, null);
+        }
+    }
 
     @JsonIgnoreProperties(ignoreUnknown = false)
     public record CliFailureResponse(String protocolVersion, String requestId, boolean success, CliError error)

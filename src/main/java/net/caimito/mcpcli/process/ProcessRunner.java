@@ -73,7 +73,7 @@ public class ProcessRunner implements AutoCloseable {
         try (stream; bytes) {
             byte[] chunk = new byte[8192]; int count;
             while ((count = stream.read(chunk)) != -1) {
-                int permitted = (int) Math.min(count, Math.max(0, limit - bytes.size()));
+                int permitted = limit == 0 ? count : (int) Math.min(count, Math.max(0, limit - bytes.size()));
                 bytes.write(chunk, 0, permitted);
                 if (permitted != count) { exceeded.set(true); process.destroy(); break; }
             }
@@ -95,5 +95,6 @@ public class ProcessRunner implements AutoCloseable {
         static ProcessResult success(byte[] out, byte[] err, Duration duration) { return new ProcessResult(true, null, out, err, duration); }
         static ProcessResult failure(String code, byte[] out, byte[] err, Duration duration) { return new ProcessResult(false, code, out, err, duration); }
         public String stdoutText() { return new String(stdout, StandardCharsets.UTF_8); }
+        public String stderrText() { return new String(stderr, StandardCharsets.UTF_8); }
     }
 }
