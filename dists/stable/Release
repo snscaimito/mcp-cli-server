@@ -1,0 +1,32 @@
+Architectures: amd64 arm64
+Codename: stable
+Components: main
+Date: Wed, 16 Sep 2026 23:30:16 +0000
+Description: Caimito MCP CLI Server APT repository
+Label: Caimito MCP CLI Server
+Origin: Caimito
+Suite: stable
+MD5Sum:
+ caf65541183e745d700b23fc274779b8              210 Release
+ fd6c1dc847b3beb00585b15a90d470bc              687 main/binary-amd64/Packages
+ dde75eb40e95908e285f8995dc2b768b              472 main/binary-amd64/Packages.gz
+ fd6c1dc847b3beb00585b15a90d470bc              687 main/binary-arm64/Packages
+ dde75eb40e95908e285f8995dc2b768b              472 main/binary-arm64/Packages.gz
+SHA1:
+ 8ba6317caa48f5f080580d33b851161b4ba78407              210 Release
+ 62fc4e6803e2b8724a059df450e4b419ba4b67ad              687 main/binary-amd64/Packages
+ d287e2471314ce7ccde7ab3f9148e96281ca3049              472 main/binary-amd64/Packages.gz
+ 62fc4e6803e2b8724a059df450e4b419ba4b67ad              687 main/binary-arm64/Packages
+ d287e2471314ce7ccde7ab3f9148e96281ca3049              472 main/binary-arm64/Packages.gz
+SHA256:
+ 8ca7076728bb10bf3ce212e45f785b8c14d5b8a8966d6dc80d49d126c4865ffe              210 Release
+ 494e79e14c3448b4bdb317cae6461bd2c86f99aabac631b3ff86f08d9f08139c              687 main/binary-amd64/Packages
+ 5bb6ea074fc3f100bcc8f1a49c463deb3b6798c1a7ad1feddf3d51354c44bfff              472 main/binary-amd64/Packages.gz
+ 494e79e14c3448b4bdb317cae6461bd2c86f99aabac631b3ff86f08d9f08139c              687 main/binary-arm64/Packages
+ 5bb6ea074fc3f100bcc8f1a49c463deb3b6798c1a7ad1feddf3d51354c44bfff              472 main/binary-arm64/Packages.gz
+SHA512:
+ b709cda52fffff8d43c903a3977e8238ab133fea724bd9cb3d608766042195a0ea6d47bbbd3f83db2daa11a5681749273d528f05d39ec7dfdf4164e7bcd2b9bb              210 Release
+ 24de320bc5f6d568ecc9ebfd8b377e0a1abacb645b97ed499e0295995bbbcc480022afbf0caabfd5a5367193cfabda3173f3e28677d64da889f0557a759868fd              687 main/binary-amd64/Packages
+ 65915a8b280e073d425cbf79d4b79ec643d05a63534940e18e714ec642a3427e602b4a1b5da480aa5270c78f8df5381a2cda1a16f7226392c754a3e2c458a05d              472 main/binary-amd64/Packages.gz
+ 24de320bc5f6d568ecc9ebfd8b377e0a1abacb645b97ed499e0295995bbbcc480022afbf0caabfd5a5367193cfabda3173f3e28677d64da889f0557a759868fd              687 main/binary-arm64/Packages
+ 65915a8b280e073d425cbf79d4b79ec643d05a63534940e18e714ec642a3427e602b4a1b5da480aa5270c78f8df5381a2cda1a16f7226392c754a3e2c458a05d              472 main/binary-arm64/Packages.gz

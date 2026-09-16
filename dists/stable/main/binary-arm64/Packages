@@ -1,0 +1,17 @@
+Package: mcp-cli-server
+Version: 1.0.12
+Architecture: all
+Maintainer: MCP CLI Server Maintainers <maintainers@example.invalid>
+Installed-Size: 38608
+Depends: adduser, openjdk-21-jre-headless
+Filename: pool/main/m/mcp-cli-server/mcp-cli-server-1.0.12.deb
+Size: 34170352
+MD5sum: 467fc66d94bd3e3ca1cd45a08d9edec6
+SHA1: a7cd7b5a5cc919e34dee7bb239bf13472f83cc60
+SHA256: 5e2448aee9e0b6b7e4e362b4650ef736848095acec02553fb783bbf5b24a3498
+Section: utils
+Priority: optional
+Homepage: https://spring.io/projects/spring-boot/mcp-cli-server
+Description: Dynamic Model Context Protocol server for self-describing CLIs
+ A loopback-only Spring Boot MCP server that discovers trusted local executables.
+
